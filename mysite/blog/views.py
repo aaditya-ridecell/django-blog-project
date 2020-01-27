@@ -9,7 +9,7 @@ from django.views.generic import (TemplateView, ListView, DetailView,
                                   CreateView, UpdateView, DeleteView)
 # Create your views here.
 
-    
+
 class AboutView(TemplateView):
     template_name = 'about.html'
 
@@ -68,18 +68,18 @@ def post_publish(request, pk):
 @login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
             return redirect('post_detail', pk=post.pk)
-        else:
-            form = CommentForm()
-        return render(request, 'blog/comment_form.html', {'form': form})
+    else:
+        form = CommentForm()
+    return render(request, 'blog/comment_form.html', {'form': form})
 
-
+    
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
